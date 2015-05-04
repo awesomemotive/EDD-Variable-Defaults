@@ -84,6 +84,7 @@ if( ! class_exists( 'EDD_Variable_Defaults' ) ) {
          */
         private function includes() {
             require_once EDD_VARIABLE_DEFAULTS_DIR . 'includes/actions.php';
+            require_once EDD_VARIABLE_DEFAULTS_DIR . 'includes/functions.php';
             require_once EDD_VARIABLE_DEFAULTS_DIR . 'includes/post-types.php';
             
             if( is_admin() ) {

@@ -31,6 +31,13 @@ function edd_variable_defaults_settings( $settings ) {
             'name'  => __( 'Default Variable Prices', 'edd-variable-defaults' ),
             'desc'  => __( 'Configure defaults', 'edd-variable-defaults' ),
             'type'  => 'hook'
+        ),
+        array(
+            'id'    => 'edd_variable_defaults_default_price',
+            'name'  => __( 'Default Price Option', 'edd-variable-defaults' ),
+            'desc'  => __( 'Set the default price option', 'edd-variable-defaults' ),
+            'type'  => 'radio',
+            'options'   => edd_variable_defaults_get_prices()
         )
     );
 
