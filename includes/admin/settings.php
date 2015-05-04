@@ -51,8 +51,8 @@ function edd_variable_defaults_table() {
         <thead>
             <tr>
                 <th style="width: 350%; padding-left: 10px;" scope="col"><?php _e( 'Name', 'edd-variable-defaults' ); ?></th>
-                <th style="width: 350%;" scope="col"><?php _e( 'Price', 'edd-variable-defaults' ); ?></th>
-                <th scope="col"><?php _e( 'Actions', 'edd-variable-defaults' ); ?></th>
+                <th style="width: 350%; padding-left: 10px;" scope="col"><?php _e( 'Price', 'edd-variable-defaults' ); ?></th>
+                <th style="padding-left: 10px;" scope="col"><?php _e( 'Actions', 'edd-variable-defaults' ); ?></th>
             </tr>
         </thead>
         <?php
