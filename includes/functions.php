@@ -25,7 +25,10 @@ function edd_variable_defaults_get_prices() {
         array(
             'posts_per_page'    => 99999,
             'post_type'         => 'variable-default',
-            'post_status'       => 'publish'
+            'post_status'       => 'publish',
+            'order'             => 'ASC',
+            'orderby'           => 'meta_value_num',
+            'meta_key'          => '_edd_variable_default_order'
         )
     );
 

@@ -35,6 +35,7 @@ function edd_edit_default_variable_price( $data ) {
     $price_id   = ( ! empty( $data['price-id'] ) ? absint( $data['price-id'] ) : false );
     $name       = esc_attr( $data['name'] );
     $value      = esc_attr( $data['price'] );
+    $order      = esc_attr( $data['order'] );
 
     if( ! $price_id ) {
         $price_id = wp_insert_post(
@@ -47,6 +48,7 @@ function edd_edit_default_variable_price( $data ) {
     }
 
     update_post_meta( $price_id, '_edd_variable_default_price', edd_sanitize_amount( $value ) );
+    update_post_meta( $price_id, '_edd_variable_default_order', absint( $order ) );
 
     wp_safe_redirect( admin_url( 'edit.php?post_type=download&page=edd-settings&tab=extensions' ) );
     exit;

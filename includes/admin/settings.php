@@ -31,13 +31,6 @@ function edd_variable_defaults_settings( $settings ) {
             'name'  => __( 'Default Variable Prices', 'edd-variable-defaults' ),
             'desc'  => __( 'Configure defaults', 'edd-variable-defaults' ),
             'type'  => 'hook'
-        ),
-        array(
-            'id'    => 'edd_variable_defaults_default_price',
-            'name'  => __( 'Default Price Option', 'edd-variable-defaults' ),
-            'desc'  => __( 'Set the default price option', 'edd-variable-defaults' ),
-            'type'  => 'radio',
-            'options'   => edd_variable_defaults_get_prices()
         )
     );
 
@@ -59,6 +52,7 @@ function edd_variable_defaults_table() {
             <tr>
                 <th style="width: 350%; padding-left: 10px;" scope="col"><?php _e( 'Name', 'edd-variable-defaults' ); ?></th>
                 <th style="width: 350%; padding-left: 10px;" scope="col"><?php _e( 'Price', 'edd-variable-defaults' ); ?></th>
+                <th style="width: 50%; padding-left: 10px;" scope="col"><?php _e( 'Order', 'edd-variable-defaults' ); ?></th>
                 <th style="padding-left: 10px;" scope="col"><?php _e( 'Actions', 'edd-variable-defaults' ); ?></th>
             </tr>
         </thead>
@@ -67,7 +61,10 @@ function edd_variable_defaults_table() {
             array(
                 'posts_per_page'    => 99999,
                 'post_type'         => 'variable-default',
-                'post_status'       => 'publish'
+                'post_status'       => 'publish',
+                'order'             => 'ASC',
+                'orderby'           => 'meta_value_num',
+                'meta_key'          => '_edd_variable_default_order'
             )
         );
 
@@ -75,6 +72,7 @@ function edd_variable_defaults_table() {
             $i = 1;
             foreach( $prices as $key => $price ) {
                 $value = get_post_meta( $price->ID, '_edd_variable_default_price', true );
+                $order = get_post_meta( $price->ID, '_edd_variable_default_order', true );
                 $currency_position = edd_get_option( 'currency_position', false );
                 
                 echo '<tr' . ( $i % 2 == 0 ? ' class="alternate"' : '' ) . '>';
@@ -88,6 +86,7 @@ function edd_variable_defaults_table() {
                     echo edd_currency_filter( '' );
                 }
                 echo '</td>';
+                echo '<td style="text-align: center;">' . ( $order ? $order : '0' ) . '</td>';
                 echo '<td>';
                 echo '<a href="' . esc_url( admin_url( 'edit.php?post_type=download&page=edd-variable-defaults&edd-ca-action=edit-variable-price&price-id=' . $price->ID ) ) . '" class="edd-edit-variable-price" data-key="' . esc_attr( $price->ID ) . '">' . __( 'Edit', 'edd-variable-defaults' ) . '</a>&nbsp;|';
                 echo '<a href="' . esc_url( wp_nonce_url( admin_url( 'edit.php?post_type=download&page=edd-variable-defaults&edd_action=delete_default_variable_price&price-id=' . $price->ID ) ) ) . '" class="edd-delete">' . __( 'Delete', 'edd-variable-defaults' ) . '</a>';
@@ -123,9 +122,11 @@ function edd_variable_defaults_render_edit() {
         $price = get_post( $price_id );
         $title = $price->post_title;
         $value = get_post_meta( $price_id, '_edd_variable_default_price', true );
+        $order = get_post_meta( $price_id, '_edd_variable_default_order', true );
     } else {
         $title = '';
         $value = false;
+        $order = 0;
     }
 
     ?>
@@ -160,6 +161,15 @@ function edd_variable_defaults_render_edit() {
                             }
                             ?>
                             <p class="description"><?php _e( 'The price of this variable item.', 'edd-variable-defaults' ); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="edd-variable-default-order"><?php _e( 'Order', 'edd-variable-defaults' ); ?></label>
+                        </th>
+                        <td>
+                            <input name="order" id="edd-variable-default-order" type="number" value="<?php echo absint( $order ); ?>" min="0" step="1" class="small-text" />
+                            <p class="description"><?php _e( 'The weight of this variable item.', 'edd-variable-defaults' ); ?></p>
                         </td>
                     </tr>
                 </tbody>

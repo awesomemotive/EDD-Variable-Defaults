@@ -103,7 +103,7 @@ if( ! class_exists( 'EDD_Variable_Defaults' ) ) {
          * @return      void
          */
         private function hooks() {
-        
+            add_action( 'admin_init', array( $this, 'maybe_upgrade' ) );
         }
 
 
@@ -136,6 +136,39 @@ if( ! class_exists( 'EDD_Variable_Defaults' ) ) {
             } else {
                 // Load the default language files
                 load_plugin_textdomain( 'edd-variable-defaults', false, $lang_dir );
+            }
+        }
+
+
+        /**
+         * Ensure the order value is set on old installs
+         *
+         * @since       1.0.1
+         * @return      void
+         */
+        public function maybe_upgrade() {
+            $upgraded = get_option( 'edd_variable_defaults_v101_upgraded' );
+
+            if( ! $upgraded ) {
+                $posts = get_posts(
+                    array(
+                        'posts_per_page'    => 99999,
+                        'post_type'         => 'variable-default',
+                        'post_status'       => 'publish'
+                    )
+                );
+
+                if( ! empty( $posts ) ) {
+                    foreach( $posts as $key => $post ) {
+                        $default = get_post_meta( $post->ID, '_edd_variable_default_order', true );
+
+                        if( ! $default ) {
+                            update_post_meta( $post->ID, '_edd_variable_default_order', '0' );
+                        }
+                    }
+                }
+
+                update_option( 'edd_variable_defaults_v101_upgraded', '1' );
             }
         }
     }
