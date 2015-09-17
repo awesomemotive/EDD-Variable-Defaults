@@ -1,5 +1,5 @@
 === Easy Digital Downloads - Variable Defaults ===
-Contributors: Section214
+Contributors: section214
 Tags: Easy Digital Downloads, EDD, variable pricing
 Requires at least: 3.0
 Tested up to: 4.1
