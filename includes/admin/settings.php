@@ -90,7 +90,7 @@ function edd_variable_defaults_table() {
 				echo '</td>';
 				echo '<td style="text-align: center;">' . ( $order ? $order : '0' ) . '</td>';
 				echo '<td>';
-				echo '<a href="' . esc_url( admin_url( 'edit.php?post_type=download&page=edd-variable-defaults&edd-ca-action=edit-variable-price&price-id=' . $price->ID ) ) . '" class="edd-edit-variable-price" data-key="' . esc_attr( $price->ID ) . '">' . __( 'Edit', 'edd-variable-defaults' ) . '</a>&nbsp;|';
+				echo '<a href="' . esc_url( admin_url( 'edit.php?post_type=download&page=edd-variable-defaults&edd-ca-action=edit-variable-price&price-id=' . $price->ID ) ) . '" class="edd-edit-variable-price" data-key="' . esc_attr( $price->ID ) . '">' . __( 'Edit', 'edd-variable-defaults' ) . '</a>&nbsp;|&nbsp;';
 				echo '<a href="' . esc_url( wp_nonce_url( admin_url( 'edit.php?post_type=download&page=edd-variable-defaults&edd_action=delete_default_variable_price&price-id=' . $price->ID ) ) ) . '" class="edd-delete">' . __( 'Delete', 'edd-variable-defaults' ) . '</a>';
 				echo '</td>';
 				echo '</tr>';
