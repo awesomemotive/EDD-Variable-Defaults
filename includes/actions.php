@@ -22,6 +22,24 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function edd_variable_defaults_get_variable_prices( $prices ) {
 	if ( is_array( $prices ) && count( $prices ) > 0 ) {
+		if ( array_key_exists( 0, $prices ) ) {
+			// Pre-1.1.0 price assignment started at 0, reset to 1
+			$index      = 1;
+			$new_prices = array();
+
+			foreach ( $prices as $price ) {
+				$new_prices[ $index ] = array(
+					'index'  => (string) $index,
+					'name'   => $price['name'],
+					'amount' => $price['amount']
+				);
+
+				$index++;
+			}
+
+			$prices = $new_prices;
+		}
+
 		return $prices;
 	}
 
@@ -41,9 +59,10 @@ function edd_variable_defaults_get_variable_prices( $prices ) {
 
 		foreach ( $defaults as $key => $price ) {
 			$value = get_post_meta( $price->ID, '_edd_variable_default_price', true );
+			$index = $key + 1;
 
-			$prices[ $key ] = array(
-				'index'  => $key,
+			$prices[ $index ] = array(
+				'index'  => $index,
 				'name'   => $price->post_title,
 				'amount' => $value
 			);

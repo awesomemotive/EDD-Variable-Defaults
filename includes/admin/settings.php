@@ -139,7 +139,7 @@ function edd_variable_defaults_render_edit() {
 	<div class="wrap">
 		<h2><?php ( $action == 'edit-variable-price' ? _e( 'Edit Variable Price', 'edd-variable-defaults' ) : _e( 'Add Variable Price', 'edd-variable-defaults' ) ); ?> <a href="<?php echo admin_url( 'edit.php?post_type=download&page=edd-settings&tab=extensions' ); ?>" class="add-new-h2"><?php _e( 'Go Back', 'edd' ); ?></a></h2>
 
-		<form id="edd-edit-conditional-email" action="" method="post">
+		<form id="edd-edit-variable-default" action="" method="post">
 			<table class="form-table">
 				<tbody>
 					<tr>
