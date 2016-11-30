@@ -8,7 +8,9 @@
 
 
 // Exit if accessed directly
-if( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 /**
@@ -19,35 +21,35 @@ if( ! defined( 'ABSPATH' ) ) exit;
  * @return      array $prices The variable prices
  */
 function edd_variable_defaults_get_variable_prices( $prices ) {
-    if( is_array( $prices ) && count( $prices ) > 0 ) {
-        return $prices;
-    }
+	if ( is_array( $prices ) && count( $prices ) > 0 ) {
+		return $prices;
+	}
 
-    $defaults = get_posts(
-        array(
-            'posts_per_page'    => 99999,
-            'post_type'         => 'variable-default',
-            'post_status'       => 'publish',
-            'order'             => 'ASC',
-            'orderby'           => 'meta_value_num',
-            'meta_key'          => '_edd_variable_default_order'
-        )
-    );
+	$defaults = get_posts(
+		array(
+			'posts_per_page' => 99999,
+			'post_type'      => 'variable-default',
+			'post_status'    => 'publish',
+			'order'          => 'ASC',
+			'orderby'        => 'meta_value_num',
+			'meta_key'       => '_edd_variable_default_order'
+		)
+	);
 
-    if( ! empty( $defaults ) ) {
-        $prices = array();
+	if ( ! empty( $defaults ) ) {
+		$prices = array();
 
-        foreach( $defaults as $key => $price ) {
-            $value = get_post_meta( $price->ID, '_edd_variable_default_price', true );
+		foreach ( $defaults as $key => $price ) {
+			$value = get_post_meta( $price->ID, '_edd_variable_default_price', true );
 
-            $prices[$key] = array(
-                'index'     => $key,
-                'name'      => $price->post_title,
-                'amount'    => $value
-            );
-        }
-    }
+			$prices[ $key ] = array(
+				'index'  => $key,
+				'name'   => $price->post_title,
+				'amount' => $value
+			);
+		}
+	}
 
-    return $prices;
+	return $prices;
 }
 add_filter( 'edd_get_variable_prices', 'edd_variable_defaults_get_variable_prices' );

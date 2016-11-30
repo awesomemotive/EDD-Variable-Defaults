@@ -12,11 +12,11 @@ if( !defined( 'ABSPATH' ) ) exit;
 
 
 /**
- * EDD Extension Activation Handler Class
+ * Section214 EDD Activation Handler Class
  *
  * @since       1.0.0
  */
-class EDD_Extension_Activation {
+class S214_EDD_Activation {
 
     public $plugin_name, $plugin_path, $plugin_file, $has_edd;
 
@@ -41,17 +41,12 @@ class EDD_Extension_Activation {
         $this->plugin_file = $plugin_file;
 
         // Set plugin name
-        if( isset( $plugins[$this->plugin_path . '/' . $this->plugin_file]['Name'] ) ) {
-            $this->plugin_name = str_replace( 'Easy Digital Downloads - ', '', $plugins[$this->plugin_path . '/' . $this->plugin_file]['Name'] );
-        } else {
-            $this->plugin_name = __( 'This plugin', 'edd' );
-        }
+        $this->plugin_name = str_replace( 'Easy Digital Downloads - ', '', $plugins[$this->plugin_path . '/' . $this->plugin_file]['Name'] );
 
         // Is EDD installed?
         foreach( $plugins as $plugin_path => $plugin ) {
             if( $plugin['Name'] == 'Easy Digital Downloads' ) {
                 $this->has_edd = true;
-                break;
             }
         }
     }
@@ -65,6 +60,13 @@ class EDD_Extension_Activation {
      * @return      void
      */
     public function run() {
+        // We need plugin.php!
+        require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+        // Deactivate this plugin
+        deactivate_plugins( $this->plugin_path . '/' . $this->plugin_file );
+        unset( $_GET['activate'] );
+
         // Display notice
         add_action( 'admin_notices', array( $this, 'missing_edd_notice' ) );
     }
@@ -79,9 +81,9 @@ class EDD_Extension_Activation {
      */
     public function missing_edd_notice() {
         if( $this->has_edd ) {
-            echo '<div class="error"><p>' . $this->plugin_name . __( ' requires Easy Digital Downloads! Please activate it to continue!', 'edd-extension-activation' ) . '</p></div>';
+            echo '<div class="error"><p>' . $this->plugin_name . __( ' requires Easy Digital Downloads! Please activate it to continue!', 'edd-wallet' ) . '</p></div>';
         } else {
-            echo '<div class="error"><p>' . $this->plugin_name . __( ' requires Easy Digital Downloads! Please install it to continue!', 'edd-extension-activation' ) . '</p></div>';
+            echo '<div class="error"><p>' . $this->plugin_name . __( ' requires Easy Digital Downloads! Please install it to continue!', 'edd-wallet' ) . '</p></div>';
         }
     }
 }
